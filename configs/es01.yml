@@ -1,0 +1,14 @@
+---
+cluster.name: elastic-lab
+node.name: ${HOSTNAME}
+network.host: [_local_, _site_]
+path.repo:
+  - /mnt/snapshots
+discovery.seed_hosts:
+  - es02
+  - es03
+cluster.initial_master_nodes:
+  - es01
+  - es02
+  - es03
+xpack.security.enabled: false

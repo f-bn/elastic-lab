@@ -1,0 +1,129 @@
+---
+name: elastic-lab
+
+#---------------------------------------------------------------------
+# Services
+#---------------------------------------------------------------------
+services:
+  es-init:
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    container_name: ${COMPOSE_PROJECT_NAME}-es-init
+    restart: 'no'
+    user: root
+    entrypoint: sh -c
+    command: ["chown -R elasticsearch:elasticsearch /mnt/snapshots"]
+    volumes:
+      - type: volume
+        source: snapshots-data
+        target: /mnt/snapshots
+
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    container_name: ${COMPOSE_PROJECT_NAME}-es01
+    hostname: es01
+    volumes:
+      - type: bind
+        source: ./configs/es01.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        bind:
+          selinux: Z
+      - type: volume
+        source: es01-data
+        target: /usr/share/elasticsearch/data
+      - type: volume
+        source: snapshots-data
+        target: /mnt/snapshots
+    ports: ['127.0.0.1:9200:9200']
+    mem_limit: 4gb
+    depends_on:
+      es-init:
+        condition: service_completed_successfully
+
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    container_name: ${COMPOSE_PROJECT_NAME}-es02
+    hostname: es02
+    volumes:
+      - type: bind
+        source: ./configs/es02.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        bind:
+          selinux: Z
+      - type: volume
+        source: es02-data
+        target: /usr/share/elasticsearch/data
+      - type: volume
+        source: snapshots-data
+        target: /mnt/snapshots
+    ports: ['127.0.0.1:9201:9200']
+    mem_limit: 4gb
+    depends_on:
+      es-init:
+        condition: service_completed_successfully
+
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    container_name: ${COMPOSE_PROJECT_NAME}-es03
+    hostname: es03
+    volumes:
+      - type: bind
+        source: ./configs/es03.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        bind:
+          selinux: Z
+      - type: volume
+        source: es03-data
+        target: /usr/share/elasticsearch/data
+      - type: volume
+        source: snapshots-data
+        target: /mnt/snapshots
+    ports: ['127.0.0.1:9202:9200']
+    mem_limit: 4gb
+    depends_on:
+      es-init:
+        condition: service_completed_successfully
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana-wolfi:${KIBANA_VERSION:-9.5.1}
+    container_name: ${COMPOSE_PROJECT_NAME}-kibana
+    hostname: kibana
+    volumes:
+      - type: bind
+        source: ./configs/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        bind:
+          selinux: Z
+      - type: volume
+        source: kibana-data
+        target: /usr/share/kibana/data
+    ports: ['127.0.0.1:5601:5601']
+    mem_limit: 2gb
+    depends_on:
+      es01:
+        condition: service_started
+      es02:
+        condition: service_started
+      es03:
+        condition: service_started
+
+#---------------------------------------------------------------------
+# Volumes
+#---------------------------------------------------------------------
+volumes:
+  es01-data:
+    driver: local
+  es02-data:
+    driver: local
+  es03-data:
+    driver: local
+  snapshots-data:
+    driver: local
+  kibana-data:
+    driver: local
+
+#---------------------------------------------------------------------
+# Network
+#---------------------------------------------------------------------
+networks:
+  default:
+    name: ${COMPOSE_PROJECT_NAME}-net

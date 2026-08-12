@@ -1,0 +1,52 @@
+#---------------------------------------------------------------------
+# Environment variables
+#---------------------------------------------------------------------
+[env]
+# ElasticSearch
+ES_VERSION = "9.5.1"
+
+# Kibana
+KIBANA_VERSION = "9.5.1"
+
+#---------------------------------------------------------------------
+# Tasks
+#---------------------------------------------------------------------
+[tasks.start]
+description = "Start stack"
+run = "docker compose up -d"
+
+[tasks.stop]
+description = "Stop stack"
+run = "docker compose stop"
+
+[tasks.clean]
+description = "Clean all stack resources (services, volumes, networks)"
+run = "docker compose down --volumes --remove-orphans"
+
+[tasks.reset]
+description = "Reset stack from scratch"
+run = [
+    { task = "clean" },
+    { task = "start" }
+]
+
+[tasks.logs]
+description = "Get logs from a given service"
+usage = '''
+arg "<service>" help="Name of the service to display logs from" {
+  choices "es-init" "es01" "es02" "es03" "kibana"
+}
+flag "-f --follow" help="Follow log output" default=#false
+'''
+run = "docker compose logs {{ usage.service }} {% if usage.follow %}--follow{% endif %}"
+
+[tasks.start-trial]
+description = "Start a 30-day trial, which gives access to all subscription features"
+run = [
+  "curl -XPOST http://localhost:9200/_license/start_trial?acknowledge=true",
+  "curl -XGET http://localhost:9200/_license"
+]
+
+[tasks.kibana]
+description = "Open Kibana console in browser"
+run = "xdg-open http://localhost:5601"

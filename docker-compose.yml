@@ -25,8 +25,7 @@ services:
       - type: bind
         source: ./configs/es01.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
-        bind:
-          selinux: Z
+        bind: { selinux: Z }
       - type: volume
         source: es01-data
         target: /usr/share/elasticsearch/data
@@ -47,8 +46,7 @@ services:
       - type: bind
         source: ./configs/es02.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
-        bind:
-          selinux: Z
+        bind: { selinux: Z }
       - type: volume
         source: es02-data
         target: /usr/share/elasticsearch/data
@@ -69,8 +67,7 @@ services:
       - type: bind
         source: ./configs/es03.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
-        bind:
-          selinux: Z
+        bind: { selinux: Z }
       - type: volume
         source: es03-data
         target: /usr/share/elasticsearch/data
@@ -91,8 +88,7 @@ services:
       - type: bind
         source: ./configs/kibana.yml
         target: /usr/share/kibana/config/kibana.yml
-        bind:
-          selinux: Z
+        bind: { selinux: Z }
       - type: volume
         source: kibana-data
         target: /usr/share/kibana/data

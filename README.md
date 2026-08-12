@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo-elastic.png" alt="elastic-logo" title="elastic" height="200" />
+  <img src="assets/logo-elastic.png" alt="elastic-logo" title="elastic" height="180" />
 
   ---
 

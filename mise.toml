@@ -42,10 +42,7 @@ run = "docker compose logs {{ usage.service }} {% if usage.follow %}--follow{% e
 
 [tasks.start-trial]
 description = "Start a 30-day trial, which gives access to all subscription features"
-run = [
-  "curl -XPOST http://localhost:9200/_license/start_trial?acknowledge=true",
-  "curl -XGET http://localhost:9200/_license"
-]
+run = "curl -XPOST http://localhost:9200/_license/start_trial?acknowledge=true"
 
 [tasks.kibana]
 description = "Open Kibana console in browser"

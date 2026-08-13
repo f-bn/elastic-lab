@@ -66,8 +66,12 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 **Service management**
 * `logs` - Get logs from a given stack service
 
-**License**
-* `start-trial` - Start a 30-day trial, which gives access to all subscription features
+**Cluster management**
+* `cluster:health` - Retrieve cluster health report
+
+**Licensing**
+* `license:start-trial` - Start a 30-day trial, which gives access to all subscription features
+* `license:info` - Get license information
 
 **Misc**
 * `kibana` - Open Kibana console in browser

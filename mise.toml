@@ -15,6 +15,8 @@ KIBANA_VERSION = "9.5.1"
 #---------------------------------------------------------------------
 # Tasks
 #---------------------------------------------------------------------
+
+# - Stack management -
 [tasks.setup]
 description = "Set up virtual environment"
 run = "uv sync"
@@ -38,6 +40,7 @@ run = [
     { task = "start" }
 ]
 
+# - Service management -
 [tasks.logs]
 description = "Get logs from a given service"
 usage = '''
@@ -48,17 +51,22 @@ flag "-f --follow" help="Follow log output" default=#false
 '''
 run = "docker compose logs {{ usage.service }} {% if usage.follow %}--follow{% endif %}"
 
-[tasks.start-trial]
-description = "Start a 30-day trial, which gives access to all subscription features"
-run = "curl -XPOST http://localhost:9200/_license/start_trial?acknowledge=true"
-
 # - Cluster management -
 [tasks."cluster:health"]
 description = "Retrieve cluster health report"
 usage = '''
 flag "-v --verbose" help="Display more information about the health of the system" default=#false
 '''
-run = "curl -XGET 'http://localhost:9200/_health_report?format=yaml&verbose={{ usage.verbose }}'"
+run = "curl -s -XGET 'http://localhost:9200/_health_report?format=yaml&verbose={{ usage.verbose }}'"
+
+# - Licensing -
+[tasks."license:start-trial"]
+description = "Start a 30-day trial, which gives access to all subscription features"
+run = "curl -s -XPOST 'http://localhost:9200/_license/start_trial?acknowledge=true&format=yaml'"
+
+[tasks."license:info"]
+description = "Get license information"
+run = "curl -s -XGET 'http://localhost:9200/_license?format=yaml'"
 
 # - Misc -
 [tasks.kibana]

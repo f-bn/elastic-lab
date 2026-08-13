@@ -78,13 +78,13 @@ description = "Load dataset data into an ElasticSearch index"
 usage = '''
 arg "<file>" help="Path to dataset file"
 flag "-i --index <name>" help="Name of the index"
-flag "-m --mappings_file <file>" help="Path to index mappings file (must be in JSON format)"
+flag "-s --settings_file <file>" help="Path to index settings file"
 '''
 run = '''
 uv run scripts/load_dataset.py \
   {{ usage.file }} \
   {% if usage.index %}--index={{ usage.index }}{% endif %} \
-  {% if usage.mappings_file %}--mappings-file={{ usage.mappings_file }}{% endif %} \
+  {% if usage.settings_file %}--settings-file={{ usage.settings_file }}{% endif %} \
   --chunk-size=10000
 '''
 

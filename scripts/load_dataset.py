@@ -13,6 +13,12 @@ def get_file_basename(file: str):
     """Return the basename of a file path."""
     return Path(file).stem
 
+def get_index_configuration(index_settings: dict):
+    """Return settings and mappings from wrapped or bare mapping configuration."""
+    if any(key in index_settings for key in ("settings", "mappings")):
+        return index_settings.get("settings"), index_settings.get("mappings")
+    return None, index_settings
+
 def load_dataset(file: str, index: str):
     """Yield non-empty NDJSON lines as Elasticsearch bulk indexing actions."""
     with open(file, "r") as f:
@@ -23,17 +29,22 @@ def load_dataset(file: str, index: str):
                     "_source": json.loads(line),
                 }
 
-def bulk_upload(file: str, index: str, mappings: dict | None, chunk_size: int):
+def bulk_upload(file: str, index: str, index_settings: dict | None, chunk_size: int):
     """Create an index if needed and upload dataset documents in bulk."""
     client = Elasticsearch("http://localhost:9200")
 
     if not client.indices.exists(index=index):
-        if mappings is None:
+        if index_settings is None:
             client.indices.create(index=index)
             logger.info("Index '%s' created", index)
         else:
-            client.indices.create(index=index, mappings=mappings)
-            logger.info("Index '%s' created with specified mappings", index)
+            settings, mappings = get_index_configuration(index_settings)
+            client.indices.create(
+                index=index,
+                settings=settings,
+                mappings=mappings,
+            )
+            logger.info("Index '%s' created with specified configuration", index)
     else:
         logger.info("Index '%s' already exists; skipping index creation", index)
 
@@ -79,10 +90,10 @@ def main():
         help="Name of the index"
     )
     parser.add_argument(
-        "-m", "--mappings-file",
-        dest="mappings_file",
+        "-s", "--settings-file",
+        dest="settings_file",
         type=str,
-        help="Path to index mappings file (must be in JSON format)",
+        help="Path to index settings file (includes settings and/or mappings)",
     )
     parser.add_argument(
         "-c", "--chunk-size",
@@ -105,15 +116,15 @@ def main():
 
     index_name: str = args.index_name or get_file_basename(args.file)
 
-    mappings: dict | None = None
-    if args.mappings_file:
-        with open(args.mappings_file, "r") as f:
-            mappings = json.load(f)
+    settings: dict | None = None
+    if args.settings_file:
+        with open(args.settings_file, "r") as f:
+            settings = json.load(f)
 
     bulk_upload(
         file=args.file,
         index=index_name,
-        mappings=mappings,
+        index_settings=settings,
         chunk_size=args.chunk_size
     )
 

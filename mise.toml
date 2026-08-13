@@ -52,6 +52,19 @@ run = "docker compose logs {{ usage.service }} {% if usage.follow %}--follow{% e
 description = "Start a 30-day trial, which gives access to all subscription features"
 run = "curl -XPOST http://localhost:9200/_license/start_trial?acknowledge=true"
 
+# - Cluster management -
+[tasks."cluster:health"]
+description = "Retrieve cluster health report"
+usage = '''
+flag "-v --verbose" help="Display more information about the health of the system" default=#false
+'''
+run = "curl -XGET 'http://localhost:9200/_health_report?format=yaml&verbose={{ usage.verbose }}'"
+
+# - Misc -
+[tasks.kibana]
+description = "Open Kibana console in browser"
+run = "xdg-open http://localhost:5601"
+
 [tasks.load-dataset]
 description = "Load dataset data into an ElasticSearch index"
 usage = '''
@@ -67,9 +80,6 @@ uv run scripts/load_dataset.py \
   --chunk-size=10000
 '''
 
-[tasks.kibana]
-description = "Open Kibana console in browser"
-run = "xdg-open http://localhost:5601"
 
 #---------------------------------------------------------------------
 # Settings

@@ -16,7 +16,7 @@ This repository contains an ElasticSearch stack (with Kibana) for learning and t
 Before getting started, ensure you have installed:
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
-- [Mise](https://mise.jdx.dev/) installed.
+- [Mise](https://mise.jdx.dev/)
 
 > [!NOTE]
 > Mise is optional but highly recommended because some helpers commands and environment variables are managed through it for ease of management.
@@ -71,4 +71,4 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 
 **Misc**
 * `kibana` - Open Kibana console in browser
-* `load-dataset` - Load dataset data into an ElasticSearch index (use `--debug` for debug logging)
+* `load-dataset` - Load dataset data into an ElasticSearch index

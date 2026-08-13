@@ -1,16 +1,24 @@
 #---------------------------------------------------------------------
+# Tools
+#---------------------------------------------------------------------
+[tools]
+python = "3.14"
+uv = "0.12.3"
+
+#---------------------------------------------------------------------
 # Environment variables
 #---------------------------------------------------------------------
 [env]
-# ElasticSearch
 ES_VERSION = "9.5.1"
-
-# Kibana
 KIBANA_VERSION = "9.5.1"
 
 #---------------------------------------------------------------------
 # Tasks
 #---------------------------------------------------------------------
+[tasks.setup]
+description = "Set up virtual environment"
+run = "uv sync"
+
 [tasks.start]
 description = "Start stack"
 run = "docker compose up -d"
@@ -44,6 +52,27 @@ run = "docker compose logs {{ usage.service }} {% if usage.follow %}--follow{% e
 description = "Start a 30-day trial, which gives access to all subscription features"
 run = "curl -XPOST http://localhost:9200/_license/start_trial?acknowledge=true"
 
+[tasks.load-dataset]
+description = "Load dataset data into an ElasticSearch index"
+usage = '''
+arg "<file>" help="Path to dataset file"
+flag "-i --index <name>" help="Name of the index"
+flag "-m --mappings_file <file>" help="Path to index mappings file (must be in JSON format)"
+'''
+run = '''
+uv run scripts/load_dataset.py \
+  {{ usage.file }} \
+  {% if usage.index %}--index={{ usage.index }}{% endif %} \
+  {% if usage.mappings_file %}--mappings-file={{ usage.mappings_file }}{% endif %} \
+  --chunk-size=10000
+'''
+
 [tasks.kibana]
 description = "Open Kibana console in browser"
 run = "xdg-open http://localhost:5601"
+
+#---------------------------------------------------------------------
+# Settings
+#---------------------------------------------------------------------
+[settings]
+python.uv_venv_auto = "create|source"

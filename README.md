@@ -13,28 +13,31 @@ This repository contains an ElasticSearch stack (with Kibana) for learning and t
 
 ### Prerequisites
 
-Before getting started, ensure you have [Docker](https://www.docker.com/), [Docker Compose](https://docs.docker.com/compose/) and [Mise](https://mise.jdx.dev/) installed.
+Before getting started, ensure you have installed:
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Mise](https://mise.jdx.dev/) installed.
 
 > [!NOTE]
-> Mise is optional but some helpers commands and environment variables are managed via Mise for ease of management.
+> Mise is optional but highly recommended because some helpers commands and environment variables are managed through it for ease of management.
+
+### Setup
+
+First, we need to setup the environment:
+
+```bash
+mise setup
+```
 
 ### Provisionning
 
 Once the prerequisites are installed, we can simply launch the environment provisionning:
 
-* With Mise:
+```bash
+mise start
+```
 
-  ```bash
-  mise start
-  ```
-
-* Or with `docker compose`:
-
-  ```bash
-  docker compose up -d
-  ```
-
-Finally, you can access the Kibana console:
+Finally, you can access the Kibana console once the cluster is bootstrapped:
 
 ```bash
 mise kibana
@@ -46,10 +49,7 @@ Stack services versions are managed in the [mise.toml](./mise.toml) file in the 
 
 ```toml
 [env]
-# ElasticSearch
 ES_VERSION = "9.5.1"
-
-# Kibana
 KIBANA_VERSION = "9.5.1"
 ```
 
@@ -71,3 +71,4 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 
 **Misc**
 * `kibana` - Open Kibana console in browser
+* `load-dataset` - Load dataset data into an ElasticSearch index (use `--debug` for debug logging)

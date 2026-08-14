@@ -36,7 +36,7 @@ def bulk_upload(file: str, index: str, index_settings: dict | None, chunk_size: 
             sys.exit(1)
         logger.info("Index '%s' created", index)
     else:
-        logger.info("Index '%s' already exists, skipping index creation", index)
+        logger.warning("Index '%s' already exists, skipping index creation", index)
 
     logger.info("Indexing documents from '%s' into '%s' index", file, index)
 

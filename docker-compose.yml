@@ -80,6 +80,32 @@ services:
       es-init:
         condition: service_completed_successfully
 
+  logstash:
+    image: docker.elastic.co/logstash/logstash-wolfi:${LOGSTASH_VERSION:-9.5.1}
+    container_name: ${COMPOSE_PROJECT_NAME}-logstash
+    hostname: logstash
+    volumes:
+      - type: bind
+        source: ./configs/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        bind: { selinux: Z }
+      - type: bind
+        source: ./pipelines
+        target: /usr/share/logstash/pipeline
+        bind: { selinux: Z }
+      - type: volume
+        source: logstash-data
+        target: /usr/share/logstash/data
+    mem_limit: 2gb
+    ports: ['127.0.0.1:9600:9600']
+    depends_on:
+      es01:
+        condition: service_started
+      es02:
+        condition: service_started
+      es03:
+        condition: service_started
+
   kibana:
     image: docker.elastic.co/kibana/kibana-wolfi:${KIBANA_VERSION:-9.5.1}
     container_name: ${COMPOSE_PROJECT_NAME}-kibana
@@ -113,6 +139,8 @@ volumes:
   es03-data:
     driver: local
   snapshots-data:
+    driver: local
+  logstash-data:
     driver: local
   kibana-data:
     driver: local

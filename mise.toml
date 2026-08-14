@@ -10,6 +10,7 @@ uv = "0.12.3"
 #---------------------------------------------------------------------
 [env]
 ES_VERSION = "9.5.1"
+LOGSTASH_VERSION = "9.5.1"
 KIBANA_VERSION = "9.5.1"
 
 #---------------------------------------------------------------------
@@ -45,7 +46,7 @@ run = [
 description = "Get logs from a given service"
 usage = '''
 arg "<service>" help="Name of the service to display logs from" {
-  choices "es-init" "es01" "es02" "es03" "kibana"
+  choices "es-init" "es01" "es02" "es03" "logstash" "kibana"
 }
 flag "-f --follow" help="Follow log output" default=#false
 '''

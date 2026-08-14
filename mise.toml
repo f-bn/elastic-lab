@@ -78,13 +78,13 @@ run = "xdg-open http://localhost:5601"
 description = "Load dataset data into an ElasticSearch index"
 usage = '''
 arg "<file>" help="Path to dataset file"
-flag "-i --index <name>" help="Name of the index"
+flag "-i --index_name <name>" help="Name of the index"
 flag "-s --settings_file <file>" help="Path to index settings file"
 '''
 run = '''
 uv run scripts/load_dataset.py \
   {{ usage.file }} \
-  {% if usage.index %}--index={{ usage.index }}{% endif %} \
+  {% if usage.index_name %}--index-name={{ usage.index_name }}{% endif %} \
   {% if usage.settings_file %}--settings-file={{ usage.settings_file }}{% endif %} \
   --chunk-size=10000
 '''

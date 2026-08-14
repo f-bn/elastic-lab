@@ -73,7 +73,7 @@ def main():
         help="Path to dataset file"
     )
     parser.add_argument(
-        "-i", "--index",
+        "-i", "--index-name",
         dest="index_name",
         default=None,
         type=str,

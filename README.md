@@ -47,11 +47,15 @@ mise ui
 
 In the [`datasets`](./datasets/) folder, a small example recipes dataset is available for querying ElasticSearch. This is an NDJSON-transformed dataset from [Kaggle](https://www.kaggle.com/datasets/hugodarwood/epirecipes).
 
-Simply extract the archive and load it into the cluster:
+Extract the compressed archive:
 
 ```bash
 mise dataset:extract datasets/recipes.ndjson.tar.gz
+```
 
+Load the dataset using the [loader script](./scripts/load_dataset.py):
+
+```bash
 mise dataset:load datasets/recipes.ndjson -s datasets/recipes-mappings.json -i recipes
 ```
 

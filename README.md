@@ -7,7 +7,7 @@
 
 ## 📋 Overview
 
-This repository contains an ElasticSearch stack (with Kibana) for learning and testing purposes.
+This repository contains an Elastic Stack for learning and testing purposes (with Kibana and Logstash).
 
 ## 🚀 Quick Start
 

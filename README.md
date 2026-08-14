@@ -29,9 +29,9 @@ First, we need to setup the environment:
 mise setup
 ```
 
-### Provisionning
+### Provisioning
 
-Once the prerequisites are installed, we can simply launch the environment provisionning:
+Once the prerequisites are installed, we can simply launch the environment provisioning:
 
 ```bash
 mise start
@@ -40,7 +40,7 @@ mise start
 Finally, you can access the Kibana console once the cluster is bootstrapped:
 
 ```bash
-mise kibana
+mise ui
 ```
 
 ### Sample dataset example
@@ -91,4 +91,4 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 * `dataset:load` - Load dataset data into an ElasticSearch index
 
 **Misc**
-* `kibana` - Open Kibana console in browser
+* `ui` - Open Kibana console in browser

@@ -93,7 +93,7 @@ uv run scripts/load_dataset.py \
 '''
 
 # - Misc -
-[tasks.kibana]
+[tasks.ui]
 description = "Open Kibana console in browser"
 run = "xdg-open http://localhost:5601"
 

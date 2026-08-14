@@ -43,6 +43,18 @@ Finally, you can access the Kibana console once the cluster is bootstrapped:
 mise kibana
 ```
 
+### Sample dataset example
+
+In the [`datasets`](./datasets/) folder, a small example recipes dataset is available for querying ElasticSearch. This is an NDJSON-transformed dataset from [Kaggle](https://www.kaggle.com/datasets/hugodarwood/epirecipes).
+
+Simply extract the archive and load it into the cluster:
+
+```bash
+mise dataset:extract datasets/recipes.ndjson.tar.gz
+
+mise dataset:load datasets/recipes.ndjson -s datasets/recipes-mappings.json -i recipes
+```
+
 ### Versions management
 
 Stack services versions are managed in the [mise.toml](./mise.toml) file in the `env` section. These variables are loaded directly in shell environment variables by Mise once entering the stack folder.

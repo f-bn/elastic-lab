@@ -69,12 +69,17 @@ run = "curl -s -XPOST 'http://localhost:9200/_license/start_trial?acknowledge=tr
 description = "Get license information"
 run = "curl -s -XGET 'http://localhost:9200/_license?format=yaml'"
 
-# - Misc -
-[tasks.kibana]
-description = "Open Kibana console in browser"
-run = "xdg-open http://localhost:5601"
+# - Dataset management -
+[tasks."dataset:extract"]
+alias = "ds:x"
+description = "Extract dataset archive"
+usage = '''
+arg "<file>" help="Path the dataset archive"
+'''
+run = "tar -xvzf {{ usage.file }}"
 
-[tasks.load-dataset]
+[tasks."dataset:load"]
+alias = "ds:l"
 description = "Load dataset data into an ElasticSearch index"
 usage = '''
 arg "<file>" help="Path to dataset file"
@@ -89,6 +94,10 @@ uv run scripts/load_dataset.py \
   --chunk-size=10000
 '''
 
+# - Misc -
+[tasks.kibana]
+description = "Open Kibana console in browser"
+run = "xdg-open http://localhost:5601"
 
 #---------------------------------------------------------------------
 # Settings

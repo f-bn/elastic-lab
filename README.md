@@ -74,6 +74,9 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 * `license:start-trial` - Start a 30-day trial, which gives access to all subscription features
 * `license:info` - Get license information
 
+**Datasets management**
+* `dataset:extract` - Extract dataset archive
+* `dataset:load` - Load dataset data into an ElasticSearch index
+
 **Misc**
 * `kibana` - Open Kibana console in browser
-* `load-dataset` - Load dataset data into an ElasticSearch index

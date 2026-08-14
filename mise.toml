@@ -75,7 +75,7 @@ description = "Extract dataset archive"
 usage = '''
 arg "<file>" help="Path the dataset archive"
 '''
-run = "tar -xvzf {{ usage.file }}"
+run = "tar -C ./datasets -xzf {{ usage.file }}"
 
 [tasks."dataset:load"]
 description = "Load dataset data into an ElasticSearch index"

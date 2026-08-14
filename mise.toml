@@ -71,7 +71,6 @@ run = "curl -s -XGET 'http://localhost:9200/_license?format=yaml'"
 
 # - Dataset management -
 [tasks."dataset:extract"]
-alias = "ds:x"
 description = "Extract dataset archive"
 usage = '''
 arg "<file>" help="Path the dataset archive"
@@ -79,7 +78,6 @@ arg "<file>" help="Path the dataset archive"
 run = "tar -xvzf {{ usage.file }}"
 
 [tasks."dataset:load"]
-alias = "ds:l"
 description = "Load dataset data into an ElasticSearch index"
 usage = '''
 arg "<file>" help="Path to dataset file"

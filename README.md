@@ -50,6 +50,7 @@ Stack services versions are managed in the [mise.toml](./mise.toml) file in the 
 ```toml
 [env]
 ES_VERSION = "9.5.1"
+LOGSTASH_VERSION = "9.5.1"
 KIBANA_VERSION = "9.5.1"
 ```
 

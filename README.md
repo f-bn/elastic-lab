@@ -45,12 +45,12 @@ mise ui
 
 ### Sample dataset example
 
-In the [`datasets`](./datasets/) folder, there is a small example recipes dataset available for querying ElasticSearch. This is a dataset from [Kaggle](https://www.kaggle.com/datasets/hugodarwood/epirecipes) converted in NDJSON format for insertion in ElasticSearch.
+In the [`datasets`](./datasets/) folder, there is a small example `recipes` dataset available for querying ElasticSearch (including mappings). This is a dataset from [Kaggle](https://www.kaggle.com/datasets/hugodarwood/epirecipes) converted in NDJSON format for insertion in ElasticSearch.
 
 First, extract the compressed archive:
 
 ```bash
-mise dataset:extract datasets/recipes.ndjson.tar.gz
+mise dataset:extract datasets/recipes.tar.gz
 ```
 
 Then, load the dataset using the [loader script](./scripts/load_dataset.py):

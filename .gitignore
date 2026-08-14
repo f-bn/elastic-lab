@@ -4,6 +4,4 @@ __pycache__
 .qwen
 .codex
 datasets/**
-!datasets/*-mappings.json
-!datasets/*-settings.json
 !datasets/*.tar.gz

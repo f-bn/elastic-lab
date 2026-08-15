@@ -6,7 +6,7 @@ name: elastic-lab
 #---------------------------------------------------------------------
 services:
   es-init:
-    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-es-init
     restart: 'no'
     user: root
@@ -18,7 +18,7 @@ services:
         target: /mnt/snapshots
 
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-es01
     hostname: es01
     volumes:
@@ -39,7 +39,7 @@ services:
         condition: service_completed_successfully
 
   es02:
-    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-es02
     hostname: es02
     volumes:
@@ -60,7 +60,7 @@ services:
         condition: service_completed_successfully
 
   es03:
-    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION:-9.5.1}
+    image: docker.elastic.co/elasticsearch/elasticsearch-wolfi:${ES_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-es03
     hostname: es03
     volumes:
@@ -81,7 +81,7 @@ services:
         condition: service_completed_successfully
 
   logstash:
-    image: docker.elastic.co/logstash/logstash-wolfi:${LOGSTASH_VERSION:-9.5.1}
+    image: docker.elastic.co/logstash/logstash-wolfi:${LOGSTASH_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-logstash
     hostname: logstash
     volumes:
@@ -107,7 +107,7 @@ services:
         condition: service_started
 
   kibana:
-    image: docker.elastic.co/kibana/kibana-wolfi:${KIBANA_VERSION:-9.5.1}
+    image: docker.elastic.co/kibana/kibana-wolfi:${KIBANA_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-kibana
     hostname: kibana
     volumes:

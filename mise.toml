@@ -83,7 +83,7 @@ raw_args = true
 run = "uv run scripts/load_dataset.py"
 
 # - Misc -
-[tasks.ui]
+[tasks.kibana]
 description = "Open Kibana console in browser"
 run = "xdg-open http://localhost:5601"
 

@@ -96,4 +96,4 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 * `dataset:load` - Load dataset data into an ElasticSearch index
 
 **Misc**
-* `ui` - Open Kibana console in browser
+* `kibana` - Open Kibana console in browser

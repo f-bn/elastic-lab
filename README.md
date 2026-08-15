@@ -24,7 +24,7 @@ Before getting started, ensure you have installed:
 
 ### Setup
 
-First, we need to setup the environment (this):
+First, we need to setup the environment:
 
 ```bash
 mise setup

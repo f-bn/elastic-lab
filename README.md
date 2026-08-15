@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo-elastic.png" alt="elastic-logo" title="elastic" height="180" />
+  <img src="assets/logo-elastic.png" alt="elastic-logo" title="elastic" height="160" />
 
   ---
 
@@ -7,23 +7,24 @@
 
 ## 📋 Overview
 
-This repository contains an Elastic Stack for learning and testing purposes (with Kibana and Logstash).
+This repository contains an Elastic Stack lab for learning and testing purposes (with Kibana and Logstash).
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 Before getting started, ensure you have installed:
+
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [Mise](https://mise.jdx.dev/)
 
 > [!NOTE]
-> Mise is optional but highly recommended because some helpers commands and environment variables are managed through it for ease of management.
+> Mise is optional but **highly** recommended because some helpers commands and environment variables are managed through it for ease of management.
 
 ### Setup
 
-First, we need to setup the environment:
+First, we need to setup the environment (this):
 
 ```bash
 mise setup

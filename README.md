@@ -41,7 +41,7 @@ mise start
 Finally, you can access the Kibana console once the cluster is bootstrapped:
 
 ```bash
-mise ui
+mise kibana
 ```
 
 ### Sample dataset example

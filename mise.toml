@@ -79,18 +79,8 @@ run = "tar -C ./datasets -xzf {{ usage.file }}"
 
 [tasks."dataset:load"]
 description = "Load dataset data into an ElasticSearch index"
-usage = '''
-arg "<file>" help="Path to dataset file"
-flag "-i --index_name <name>" help="Name of the index"
-flag "-s --settings_file <file>" help="Path to index settings file"
-'''
-run = '''
-uv run scripts/load_dataset.py \
-  {{ usage.file }} \
-  {% if usage.index_name %}--index-name={{ usage.index_name }}{% endif %} \
-  {% if usage.settings_file %}--settings-file={{ usage.settings_file }}{% endif %} \
-  --chunk-size=10000
-'''
+raw_args = true
+run = "uv run scripts/load_dataset.py"
 
 # - Misc -
 [tasks.ui]

@@ -4,7 +4,7 @@ import logging
 import sys
 from pathlib import Path
 
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, ApiError
 from elasticsearch.helpers import streaming_bulk
 
 
@@ -14,31 +14,31 @@ def get_file_basename(file: str):
     """Return the basename of a file path."""
     return Path(file).stem
 
-def load_dataset(file: str, index: str):
+def load_dataset(file: str, index_name: str):
     """Yield non-empty NDJSON lines as Elasticsearch bulk indexing actions."""
     with open(file, "r") as f:
         for line in f:
             if line.strip():
                 yield {
-                    "_index": index,
+                    "_index": index_name,
                     "_source": json.loads(line),
                 }
 
-def bulk_upload(file: str, index: str, index_settings: dict | None, chunk_size: int):
+def bulk_upload(index_name: str, file: str, chunk_size: int, index_settings: dict | None):
     """Create an index if needed and upload dataset documents in bulk."""
     client = Elasticsearch("http://localhost:9200")
 
-    if not client.indices.exists(index=index):
+    if not client.indices.exists(index=index_name):
         try:
-            client.indices.create(index=index, body=index_settings)
-        except Exception as error:
+            client.indices.create(index=index_name, body=index_settings)
+        except ApiError as error:
             logger.error("Index creation failed: %s", error)
             sys.exit(1)
-        logger.info("Index '%s' created", index)
+        logger.info("Index '%s' created", index_name)
     else:
-        logger.warning("Index '%s' already exists, skipping index creation", index)
+        logger.warning("Index '%s' already exists, skipping index creation", index_name)
 
-    logger.info("Indexing documents from '%s' into '%s' index", file, index)
+    logger.info("Indexing documents from '%s' into '%s' index", file, index_name)
 
     processed_docs: int = 0
     indexed_docs: int = 0
@@ -46,14 +46,14 @@ def bulk_upload(file: str, index: str, index_settings: dict | None, chunk_size: 
 
     for success, error in streaming_bulk(
         client=client,
-        actions=load_dataset(file, index),
+        actions=load_dataset(file=file, index_name=index_name),
         chunk_size=chunk_size,
         raise_on_error=False
     ):
         processed_docs += 1
         if not success:
             failed_docs += 1
-            logger.error("Failed to load document into index '%s': %s", index, error)
+            logger.error("Failed to load document into index '%s': %s", index_name, error)
         else:
             indexed_docs += 1
 
@@ -101,24 +101,25 @@ def main():
         datefmt="%Y-%m-%dT%H:%M:%S",
     )
 
-    if args.chunk_size <= 0:
-        raise ValueError("--chunk-size flag must be a positive integer")
-
-    index_name: str = args.index_name or get_file_basename(args.file)
-
     settings_file: str = args.settings_file
     settings: dict | None = None
     if settings_file:
         try:
             with open(settings_file, "r") as f:
                 settings = json.load(f)
+        except FileNotFoundError:
+            logger.error("Index settings file not found, aborting")
+            sys.exit(1)
         except json.JSONDecodeError as error:
             logger.error("Index settings file parsing failed: %s", error)
             sys.exit(1)
 
+    if args.chunk_size <= 0:
+        raise ValueError("--chunk-size flag must be a positive integer")
+
     bulk_upload(
         file=args.file,
-        index=index_name,
+        index_name=args.index_name or get_file_basename(args.file),
         index_settings=settings,
         chunk_size=args.chunk_size
     )

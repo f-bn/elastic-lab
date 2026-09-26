@@ -70,13 +70,6 @@ description = "Get license information"
 run = "curl -s -XGET 'http://localhost:9200/_license?format=yaml'"
 
 # - Dataset management -
-[tasks."dataset:extract"]
-description = "Extract dataset archive"
-usage = '''
-arg "<file>" help="Path the dataset archive"
-'''
-run = "tar -C ./datasets -xzf {{ usage.file }}"
-
 [tasks."dataset:load"]
 description = "Load dataset data into an ElasticSearch index"
 raw_args = true

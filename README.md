@@ -51,7 +51,7 @@ In the [`datasets`](./datasets/) folder, there is a small example `recipes` data
 First, extract the compressed archive:
 
 ```bash
-mise dataset:extract datasets/recipes.tar.gz
+tar -C ./datasets -xzf ./datasets/recipes.tar.gz
 ```
 
 Then, load the dataset using the [loader script](./scripts/load_dataset.py):
@@ -92,7 +92,6 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 * `license:info` - Get license information
 
 **Datasets management**
-* `dataset:extract` - Extract dataset archive
 * `dataset:load` - Load dataset data into an ElasticSearch index
 
 **Misc**

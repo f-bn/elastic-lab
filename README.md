@@ -57,18 +57,18 @@ tar -C ./datasets -xzf ./datasets/recipes.tar.gz
 Then, load the dataset using the [loader script](./scripts/load_dataset.py):
 
 ```bash
-mise dataset:load datasets/recipes.ndjson -s datasets/recipes-mappings.json -i recipes
+mise load-dataset datasets/recipes.ndjson -s datasets/recipes-mappings.json -i recipes
 ```
 
 ### Versions management
 
-Stack services versions are managed in the [mise.toml](./mise.toml) file in the `env` section. These variables are loaded directly in shell environment variables by Mise once entering the stack folder.
+Stack services versions are managed in the [mise.toml](./mise.toml) file in the `env` section. These variables are loaded directly into the shell environment variables by Mise once entering the stack folder.
 
 ```toml
 [env]
-ES_VERSION = "9.5.1"
-LOGSTASH_VERSION = "9.5.1"
-KIBANA_VERSION = "9.5.1"
+ES_VERSION = "9.5.4"
+LOGSTASH_VERSION = "9.5.4"
+KIBANA_VERSION = "9.5.4"
 ```
 
 ### Mise tasks available
@@ -80,19 +80,18 @@ All common operations are wrapped in **Mise** tasks to provide a consistent and 
 * `stop` - Stop stack
 * `clean` - Clean all stack resources (services, volumes, networks)
 * `reset` - Reset stack from scratch
-
-**Service management**
 * `logs` - Get logs from a given stack service
 
 **Cluster management**
-* `cluster:health` - Retrieve cluster health report
+* `status` - Get cluster status
+* `health` - Retrieve cluster health status report
+ 
+**Datasets management**
+* `load-dataset` - Load dataset into an ElasticSearch index
 
 **Licensing**
 * `license:start-trial` - Start a 30-day trial, which gives access to all subscription features
 * `license:info` - Get license information
-
-**Datasets management**
-* `dataset:load` - Load dataset data into an ElasticSearch index
 
 **Misc**
 * `kibana` - Open Kibana console in browser

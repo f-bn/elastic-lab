@@ -41,7 +41,6 @@ run = [
     { task = "start" }
 ]
 
-# - Service management -
 [tasks.logs]
 description = "Get logs from a given service"
 usage = '''
@@ -53,27 +52,32 @@ flag "-f --follow" help="Follow log output" default=#false
 run = "docker compose logs {{ usage.service }} {% if usage.follow %}--follow{% endif %}"
 
 # - Cluster management -
-[tasks."cluster:health"]
-description = "Retrieve cluster health report"
-usage = '''
-flag "-v --verbose" help="Display more information about the health of the system" default=#false
-'''
-run = "curl -s -XGET 'http://localhost:9200/_health_report?format=yaml&verbose={{ usage.verbose }}'"
+[tasks.status]
+description = "Get cluster status"
+quiet = true
+run = "curl -s -XGET http://localhost:9200/_cluster/health?&pretty=true"
+
+[tasks.health]
+description = "Retrieve cluster health status report"
+quiet = true
+run = "curl -s -XGET http://localhost:9200/_health_report?verbose=true&pretty=true"
+
+# - Datasets management -
+[tasks.load-dataset]
+description = "Load dataset into an ElasticSearch index"
+raw_args = true
+run = "uv run scripts/load_dataset.py"
 
 # - Licensing -
 [tasks."license:start-trial"]
 description = "Start a 30-day trial, which gives access to all subscription features"
-run = "curl -s -XPOST 'http://localhost:9200/_license/start_trial?acknowledge=true&format=yaml'"
+quiet = true
+run = "curl -s -XPOST http://localhost:9200/_license/start_trial?acknowledge=true&pretty=true"
 
 [tasks."license:info"]
 description = "Get license information"
-run = "curl -s -XGET 'http://localhost:9200/_license?format=yaml'"
-
-# - Dataset management -
-[tasks."dataset:load"]
-description = "Load dataset data into an ElasticSearch index"
-raw_args = true
-run = "uv run scripts/load_dataset.py"
+quiet = true
+run = "curl -s -XGET http://localhost:9200/_license?pretty=true"
 
 # - Misc -
 [tasks.kibana]

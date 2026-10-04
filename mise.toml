@@ -55,12 +55,12 @@ run = "docker compose logs {{ usage.service }} {% if usage.follow %}--follow{% e
 [tasks.status]
 description = "Get cluster status"
 quiet = true
-run = "curl -s -XGET http://localhost:9200/_cluster/health?&pretty=true"
+run = "curl -s -XGET http://localhost:9200/_cluster/health?pretty=true"
 
 [tasks.health]
 description = "Retrieve cluster health status report"
 quiet = true
-run = "curl -s -XGET http://localhost:9200/_health_report?verbose=true&pretty=true"
+run = "curl -s -XGET http://localhost:9200/_health_report?pretty=true"
 
 # - Datasets management -
 [tasks.load-dataset]
@@ -72,7 +72,7 @@ run = "uv run scripts/load_dataset.py"
 [tasks."license:start-trial"]
 description = "Start a 30-day trial, which gives access to all subscription features"
 quiet = true
-run = "curl -s -XPOST http://localhost:9200/_license/start_trial?acknowledge=true&pretty=true"
+run = "curl -s -XPOST http://localhost:9200/_license/start_trial?acknowledge=true"
 
 [tasks."license:info"]
 description = "Get license information"

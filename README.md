@@ -60,6 +60,25 @@ Then, load the dataset using the [loader script](./scripts/load_dataset.py):
 mise load-dataset datasets/recipes.ndjson -s datasets/recipes-mappings.json -i recipes
 ```
 
+### Integrations
+
+By default, no all Elastic stack components referenced in this lab are created automatically, such as Logstash. Some of these components can be optionally enabled with `--enable-<integration>` flags if available:
+
+```bash
+$ mise start --help
+Start stack
+
+Usage: start [--enable-logstash]
+
+Flags:
+      --enable-logstash  Enable Logstash integration
+                         (default: false)
+  -h, --help             Print help
+
+# Enable Logstash integration
+mise start --enable-logstash
+```
+
 ### Versions management
 
 Stack services versions are managed in the [mise.toml](./mise.toml) file in the `env` section. These variables are loaded directly into the shell environment variables by Mise once entering the stack folder.

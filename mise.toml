@@ -24,15 +24,22 @@ run = "uv sync"
 
 [tasks.start]
 description = "Start stack"
-run = "docker compose up -d"
+usage = '''
+flag "--enable-logstash" help="Enable Logstash integration" default=#false
+'''
+run = '''
+docker compose \
+{% if usage.enable_logstash %}--profile='integration-logstash'{% endif %} \
+up -d
+'''
 
 [tasks.stop]
 description = "Stop stack"
-run = "docker compose stop"
+run = "docker compose --profile='*' stop"
 
 [tasks.clean]
 description = "Clean all stack resources (services, volumes, networks)"
-run = "docker compose down --volumes --remove-orphans"
+run = "docker compose --profile='*' down --volumes --remove-orphans"
 
 [tasks.reset]
 description = "Reset stack from scratch"

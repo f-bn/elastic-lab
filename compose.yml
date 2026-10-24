@@ -81,6 +81,7 @@ services:
         condition: service_completed_successfully
 
   logstash:
+    profiles: ['integration-logstash']
     image: docker.elastic.co/logstash/logstash-wolfi:${LOGSTASH_VERSION}
     container_name: ${COMPOSE_PROJECT_NAME}-logstash
     hostname: logstash

@@ -9,9 +9,9 @@ uv = "0.12.19"
 # Environment variables
 #---------------------------------------------------------------------
 [env]
-ES_VERSION = "9.5.4"
-LOGSTASH_VERSION = "9.5.4"
-KIBANA_VERSION = "9.5.4"
+ES_VERSION = "9.5.5"
+LOGSTASH_VERSION = "9.5.5"
+KIBANA_VERSION = "9.5.5"
 
 #---------------------------------------------------------------------
 # Tasks
